@@ -13,10 +13,11 @@ namespace Le_golf
     {
         static void Main(string[] args)
         {
-            DeGeneral de = new DeGeneral();
+            int deSize = 100;
+            DeGeneral de = new DeGeneral(deSize);
 
             int nbBalle = 100;
-            int nbDimention = 5;
+            int nbDimention = 100;
 
             Balle[,] balles1 = new Balle[nbBalle, nbDimention];
             Balle[,] balles2 = new Balle[nbBalle, nbDimention];
@@ -45,19 +46,20 @@ namespace Le_golf
                         }
                         if (!victoire2)
                         {
-                            victoire2 = balles2[i, d].StrategieCouloire(longeure);
+                            victoire2 = balles2[i, d].StrategieCouloire(longeure, deSize);
                             meanCoup2[d]++;
                         }
-                        Debug.WriteLine("");
+                        //Debug.WriteLine("");
                     } while (!(victoire1 && victoire2));
                 }
                 meanCoup1[d] /= nbBalle;
                 meanCoup2[d] /= nbBalle;
-                Console.WriteLine($"Nombre de coup moyen : {meanCoup1[d]} pour {d + 1} dimention avec D6 avec strategie naive");
+                Console.WriteLine($"Nombre de coup moyen : {meanCoup1[d]} pour {d + 1} dimention avec D{deSize} avec strategie naive");
                 
-                Console.WriteLine($"Nombre de coup moyen : {meanCoup2[d]} pour {d + 1} dimention avec D6 avec Strategie couloire");
+                Console.WriteLine($"Nombre de coup moyen : {meanCoup2[d]} pour {d + 1} dimention avec D{deSize} avec Strategie couloire");
+                Console.WriteLine($"Plus value {(100 * meanCoup1[d] / meanCoup2[d]):##0} %");
                 Console.WriteLine();
-                Debug.WriteLine("");
+                //Debug.WriteLine("");
             }
 
             Console.WriteLine();

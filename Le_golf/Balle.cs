@@ -63,7 +63,7 @@ namespace BalleNamespace
             {
                 _coordonee[axe] -= longueur;
             }
-            Debug.WriteLine(string.Join(", ", _coordonee));
+            //Debug.WriteLine(string.Join(", ", _coordonee));
             return _coordonee[axe] == 0;
         }
 
@@ -95,10 +95,10 @@ namespace BalleNamespace
             bool notInCouloire = false;
             for (int i = 0; i <_coordonee.Length; i++)
             {
-                Debug.Write($"{IsInCouloire(i, size)} ");
+                //Debug.Write($"{IsInCouloire(i, size)} ");
                 notInCouloire |= !IsInCouloire(i, size);
             }
-            Debug.WriteLine("");
+            //Debug.WriteLine("");
             if (notInCouloire)
             {
                 int bestAxe = 0;
