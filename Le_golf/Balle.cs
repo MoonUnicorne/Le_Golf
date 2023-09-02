@@ -30,6 +30,19 @@ namespace BalleNamespace
 
         }
 
+        public bool Victoire()
+        {
+            for (int i = 0; i < _coordonee.Length ; i++)
+            {
+                if (_coordonee[i] != 0)
+                {
+                    return false;
+                }
+
+            }
+            return true;
+        }
+
         public bool Deplacer(int longueur, int axe=0)
         {
             if (axe < 0 || axe >= _dimention)
@@ -87,14 +100,30 @@ namespace BalleNamespace
 
             Deplacer(longueur, bestAxe);
 
-            for (int d = 0; d < _coordonee.Length ; d++)
+            return Victoire();
+        }
+
+
+        public bool Strategie1DimBy1(int longeur)
+        {
+            for (int i = 0; i < _coordonee.Length ; i++)
             {
-                if (_coordonee[d] != 0) 
+                if (_coordonee[i] != 0)
                 {
-                    return false;
+                    if (_coordonee[i] > 0)
+                    {
+                        _coordonee[i] -= longeur;
+                        return Victoire();
+                    }
+                    else 
+                    {
+                        _coordonee[i] += longeur;
+                        return Victoire();
+                    }
                 }
             }
-            return true;
+
+            return Victoire();
         }
 
 

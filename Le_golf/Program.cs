@@ -15,7 +15,7 @@ namespace Le_golf
             DeGeneral de = new DeGeneral();
 
             int nbBalle = 1000;
-            int nbDimention = 4;
+            int nbDimention = 3;
 
             Balle[,] balles = new Balle[nbBalle,nbDimention];
             decimal[] meanCoup = new decimal[nbDimention];
@@ -32,7 +32,7 @@ namespace Le_golf
                     }
                 }
                 meanCoup[d] /= nbBalle;
-                Console.WriteLine($"Nombre de coup moyen : {meanCoup[d]} pour {d} dimention avec D6");
+                Console.WriteLine($"Nombre de coup moyen : {meanCoup[d]} pour {d+1} dimention avec D6");
                 //Console.WriteLine($"Performance : {meanCoup[d] / (decimal)Math.Pow(1000 * 1000, 1/2)}");
             }
             
