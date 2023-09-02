@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -10,8 +11,8 @@ namespace BalleNamespace
 {
     internal class Balle
     {
-        public int _dimention {get; private set;}
-        public int[] _coordonee {get; private set;}
+        public int _dimention { get; private set; }
+        public int[] _coordonee { get; private set; }
 
         public Balle(int dimention)
         {
@@ -32,7 +33,7 @@ namespace BalleNamespace
 
         public bool Victoire()
         {
-            for (int i = 0; i < _coordonee.Length ; i++)
+            for (int i = 0; i < _coordonee.Length; i++)
             {
                 if (_coordonee[i] != 0)
                 {
@@ -43,7 +44,7 @@ namespace BalleNamespace
             return true;
         }
 
-        public bool Deplacer(int longueur, int axe=0)
+        public bool Deplacer(int longueur, int axe = 0)
         {
             if (axe < 0 || axe >= _dimention)
             {
@@ -62,70 +63,85 @@ namespace BalleNamespace
             {
                 _coordonee[axe] -= longueur;
             }
-
+            Debug.WriteLine(string.Join(", ", _coordonee));
             return _coordonee[axe] == 0;
         }
 
-        public bool StrategiNaive(int longueur)
-        {
-            int bestAxe = 0;
-            int minDist = int.MaxValue;
-            for (int i = 0; i < _coordonee.Length ; i++)
-            {
-                if (_coordonee[i] == 0)
-                {
-                    continue;
-                }
-                else if (_coordonee[i] == longueur)
-                {
-                    bestAxe = i;
-                    break;
-                }
-                else if (_coordonee[i] > 0)
-                {
-                    
-                    if (Math.Abs(_coordonee[i] - longueur) < minDist)
-                    {
-                        bestAxe = i;
-                    }
-                }
-                else
-                {
-                    if (Math.Abs(_coordonee[i] + longueur) < minDist)
-                    {
-                        bestAxe = i;
-                    }
-                }
-            }
-
-            Deplacer(longueur, bestAxe);
-
-            return Victoire();
-        }
+        
 
 
         public bool Strategie1DimBy1(int longeur)
         {
-            for (int i = 0; i < _coordonee.Length ; i++)
+            for (int i = 0; i < _coordonee.Length; i++)
             {
                 if (_coordonee[i] != 0)
                 {
-                    if (_coordonee[i] > 0)
-                    {
-                        _coordonee[i] -= longeur;
-                        return Victoire();
-                    }
-                    else 
-                    {
-                        _coordonee[i] += longeur;
-                        return Victoire();
-                    }
+                    Deplacer(longeur, i);
+                    break;
                 }
             }
 
             return Victoire();
         }
 
+
+        private bool IsInCouloire(int axe, int size)
+        {
+            return Math.Abs(_coordonee[axe]) < size;
+        }
+
+        public bool StrategieCouloire(int longueur, int size = 6)
+        {
+            bool notInCouloire = false;
+            for (int i = 0; i <_coordonee.Length; i++)
+            {
+                Debug.Write($"{IsInCouloire(i, size)} ");
+                notInCouloire |= !IsInCouloire(i, size);
+            }
+            Debug.WriteLine("");
+            if (notInCouloire)
+            {
+                int bestAxe = 0;
+                int minDist = int.MaxValue;
+                for (int i = 0; i < _coordonee.Length; i++)
+                {
+                    if (_coordonee[i] == 0)
+                    {
+                        //continue;
+                    }
+                    else if (_coordonee[i] == longueur)
+                    {
+                        bestAxe = i;
+                        break;
+                    }
+                    else if (IsInCouloire(i,size))
+                    {
+                        //continue;
+                    }
+                    else if (_coordonee[i] > 0)
+                    {
+
+                        if (Math.Abs(_coordonee[i] - longueur) < minDist)
+                        {
+                            bestAxe = i;
+                        }
+                    }
+                    else
+                    {
+                        if (Math.Abs(_coordonee[i] + longueur) < minDist)
+                        {
+                            bestAxe = i;
+                        }
+                    }
+                }
+                Deplacer(longueur, bestAxe);
+            }
+            else
+            {
+                Strategie1DimBy1(longueur);
+            }
+            return Victoire();
+        }
 
     }
 }

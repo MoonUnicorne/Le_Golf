@@ -34,7 +34,7 @@ namespace DiceNamespace
 
         public int roll()
         {
-            return _random.Next(_size);
+            return _random.Next(1, _size+1);
         }
 
 
